@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "target": "ES2022",
+        "module": "commonjs",
+        "moduleResolution": "bundler",
+        "ignoreDeprecations": "6.0",
+        "lib": [
+            "es2022",
+            "dom"
+        ],
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "declaration": true,
+        "strict": true,
+        "noImplicitReturns": true,
+        "experimentalDecorators": true,
+        "strictPropertyInitialization": false,
+        "types": [
+            "node",
+            "aws-lambda"
+        ],
+        "typeRoots": [
+            "./node_modules/@types"
+        ]
+    },
+    "exclude": [
+        "node_modules",
+        "cdk.out",
+        "**.js",
+        "eslint.config.js",
+    ]
+}

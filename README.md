@@ -57,9 +57,16 @@ The default models were all tested in `ap-southeast-2` with streaming and tool c
 
 Get the API Key using the `GetApiKeyCommand` value in the stack outputs.
 
-In VS Code run `Chat: Manage Language Models` and add the models to your `chatLanguageModels.json` file. There is a sample in [docs/chatLanguageModels.sample.json](docs/chatLanguageModels.sample.json) - replace the URLs with the `ChatCompletionsUrl` stack output. You will be prompted for the API Key.
+**BYOK is not supported in VS Code remote sessions, including WSL.** The `Add Models` option is disabled in a remote window, so you need to use VS Code in a local window.
 
-Copilot sends the key as a Bearer token by default, so no custom headers are required.
+To add the models in VS Code:
+1. Open the Command Palette and run `Chat: Manage Language Models`
+2. Select `Add Models`, then `Custom Endpoint`
+3. Use the wizard to add the first model, using the `ChatCompletionsUrl` stack output as the URL, the API Key, and a model `id` from `config/index.ts`. The wizard creates the `chatLanguageModels.json` file
+4. Open the `chatLanguageModels.json` file from the same screen, then paste in the full config. There is a sample in [docs/chatLanguageModels.sample.json](docs/chatLanguageModels.sample.json) - replace the URLs with the `ChatCompletionsUrl` stack output
+5. Select one of the models from the model picker in the Chat view
+
+The model `id` values must match the `id` values in `config/index.ts`. Copilot sends the key as a Bearer token by default, so no custom headers are required.
 
 Check the following before you start:
 - BYOK covers chat and agent use. Inline suggestions and features that use embeddings still use the GitHub service
@@ -107,4 +114,4 @@ aws dynamodb query --table-name "$TABLE" \
 
 **Limits.** Responses can stream for up to 15 minutes, with a 5 minute idle timeout on Regional endpoints. Edge-optimized endpoints have a 30 second idle timeout, which is why this demo uses Regional.
 
-**Costs.** You are charged for Bedrock tokens, API Gateway streaming, Lambda, DynamoDB and the secret. Run `cdk destroy` to remove the demo. This also deletes the usage table.
+**Costs.** Everything is charged per request, so the demo costs almost nothing while idle. The exceptions are the Secrets Manager secret at about $0.40 per month, and a small amount of storage for the usage table and logs. When in use you are charged for Bedrock tokens, API Gateway streaming, Lambda and DynamoDB. Run `cdk destroy` to remove the demo. This also deletes the usage table.
